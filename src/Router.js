@@ -1,10 +1,24 @@
-define(function (require) {
-    var _ = require('underscore');
-    var Events = require('./Events');
+(function (root, factory) {
+    if(typeof define === "function" && define.amd) {
+        // AMD
+        define(["underscore", "./Events"], function(underscore, Events){
+            return factory(underscore, Events);
+        });
+    } else if(typeof module === "object" && module.exports) {
+        // CMD
+        module.exports = factory(
+            require("underscore"),
+            require("./Events")
+        );
+    } else {
+        // Browser
+        root.Router = factory(root._, root.events);
+    }
+}(this, function(_, Events) {
 
     function Router(obj, option) {
-        this.currentState = null;
-        this.rootNode = initRouterTree(obj);
+        this.currentState = [];
+        this.rootNode = this.initRouterTree(obj);
     }
 
     _.extend(Router.prototype, Events, {
@@ -31,7 +45,7 @@ define(function (require) {
         },
         getTargetState: function(nodes, path, unmatched, stateStack) {
             if (path.length === 0) {
-                return null;
+                path = '/';
             }
             var rules = _.keys(nodes);
             // 从长到短
@@ -53,15 +67,18 @@ define(function (require) {
             }
             // degrade /a/b/c -> /a/b
             var lastIndexOfSlash = path.lastIndexOf('/');
+            if (lastIndexOfSlash === -1) {
+                throw new Error('not found');
+            }
             var degradePath = path.slice(0, lastIndexOfSlash);
-            unmatched.unshift(path.slice(lastIndexOfSlash));
+            unmatched.unshift(path.slice(lastIndexOfSlash + 1));
             return this.getTargetState(nodes, degradePath, unmatched, stateStack);
         },
         findShortestPath: function(currentState, targetState) {
             // get Common parent Node
             for (var i = 0; i < currentState.length; i++) {
-                if (currentState.node !== targetState.node ||
-                    !_.isEqual(currentState.params, targetState.params)) {
+                if (currentState[i].node !== targetState[i].node ||
+                    !_.isEqual(currentState[i].params, targetState[i].params)) {
                     break;
                 }
             }
@@ -83,4 +100,5 @@ define(function (require) {
     });
 
     return Router;
-});
+}));
+
