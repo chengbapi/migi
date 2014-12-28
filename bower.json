@@ -1,0 +1,19 @@
+{
+  "name": "Parasites",
+  "version": "0.0.0",
+  "authors": [
+    "Mato <chengbapi@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+      "requirejs": "*",
+      "underscore": "*",
+      "react": "*",
+      "jquery": "*"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "lib"
+  ]
+}
