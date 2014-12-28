@@ -1,6 +1,25 @@
-define(function() {
-  var Events = {
+(function (root, factory) {
+    if(typeof define === "function" && define.amd) {
+        // AMD
+        define(['underscore'], function(underscore){
+            return factory(underscore);
+        });
+    } else if(typeof module === "object" && module.exports) {
+        // CMD
+        module.exports = factory(
+            require('underscore')
+        );
+    } else {
+        // Browser
+        root.Events = factory(root._);
+    }
+}(this, function(_) {
+  var array = [];
+  var push = array.push;
+  var slice = array.slice;
+  var splice = array.splice;
 
+  var Events = {
     // Bind an event to a `callback` function. Passing `"all"` will bind
     // the callback to all events fired.
     on: function(name, callback, context) {
@@ -154,4 +173,4 @@ define(function() {
   Events.unbind = Events.off;
 
   return Events;
-});
+}));

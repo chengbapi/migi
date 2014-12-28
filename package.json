@@ -1,0 +1,14 @@
+{
+  "name": "parasites",
+  "version": "0.0.0",
+  "description": "",
+  "repository": "",
+  "author": "chengbapi@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "underscore": "*",
+    "jquery": "*",
+    "should": "*"
+  }
+}
+
