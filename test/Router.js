@@ -1,7 +1,7 @@
 var assert = require("assert");
 var Router = require("../src/Router");
 describe('Router', function(){
-    var router = new Router({
+    var router = Router.start({
         '/': {
             tag: 'root directory',
             childNodes: {
@@ -54,9 +54,9 @@ describe('Router', function(){
         it('form help to renxing', function(){
             router.triggerRouter('/renxing');
         });
-        it('form help to renxing', function(){
-            router.triggerRouter('/hhaha');
-        });
+        //it('form help to renxing', function(){
+            //router.triggerRouter('/hhaha');
+        //});
     });
 });
 

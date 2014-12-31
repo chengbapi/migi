@@ -1,6 +1,5 @@
 define(function(require) {
-    var $ = require('jquery');
-    var pError = require('./Error');
+    var deepCopy = require('./util').deepCopy;
 
     function Model(obj) {
         return createObject(Model.defaults, obj);
@@ -26,12 +25,6 @@ define(function(require) {
         return $.extend({}, deepCopy(defaults), deepCopy(obj));
     }
 
-    function deepCopy(object) {
-        return $.extend(true, {}, object);
-    }
-
-
     return Model;
-
 });
 
