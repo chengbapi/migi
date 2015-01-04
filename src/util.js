@@ -14,7 +14,7 @@
         root.deepCopy = factory(root._);
     }
 }(this, function(_) {
-    return {
+    var util = {
         // reference by jQuery.extend
         extend: function() {
             var options, name, src, copy, copyIsArray, clone,
@@ -81,10 +81,11 @@
             return target;
         },
         deepCopy: function(obj) {
-            return this.extend(true, {}, obj);
+            return util.extend(true, {}, obj);
         }
     };
 
+    return util;
 }));
 
 

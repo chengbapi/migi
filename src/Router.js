@@ -79,7 +79,7 @@
                     matchResult.node = nodes[rules[i]];
                     if (unmatched.length) {
                         stateStack.push(matchResult);
-                        return this.getTargetState(nodes[rules[i]].childNodes, unmatched.join(''), [], stateStack);
+                        return this.getTargetState(nodes[rules[i]].childNodes, unmatched.join('/'), [], stateStack);
                     }
                     stateStack.push(matchResult);
                     return stateStack;

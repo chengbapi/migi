@@ -8,8 +8,11 @@ describe('Router', function(){
                 'home': {
                     tag: 'home page'
                 },
-                'help': {
+                'help/:id': {
                     tag: 'help page'
+                },
+                'doSomething/then/last': {
+                    tag: 'done'
                 }
             }
         },
@@ -19,9 +22,11 @@ describe('Router', function(){
     });
     router.on('enter', function(node, params) {
         console.log('enter:' + node.tag);
+        console.log(params);
     });
     router.on('leave', function(node, params) {
         console.log('leave:' + node.tag);
+        console.log(params);
     });
 
     describe('#init()', function(){
@@ -48,11 +53,14 @@ describe('Router', function(){
         it('from root to home', function(){
             router.triggerRouter('/home');
         });
-        it('form home to help', function(){
-            router.triggerRouter('/help');
+        it.only('from home to help', function(){
+            router.triggerRouter('/help/123');
         });
-        it('form help to renxing', function(){
+        it('from help to renxing', function(){
             router.triggerRouter('/renxing');
+        });
+        it('from renxing to last', function(){
+            router.triggerRouter('/doSomething/then/last');
         });
         //it('form help to renxing', function(){
             //router.triggerRouter('/hhaha');
