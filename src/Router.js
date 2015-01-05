@@ -27,7 +27,7 @@
         currentState: [],
         start: function(obj) {
             this.rootNode = this.initRouterTree(obj);
-            //history.start();
+            history.start();
             return this;
         },
         initRouterTree: function(obj) {
@@ -50,6 +50,7 @@
             //this.trigger('addRouter');
         },
         triggerRouter: function(path) {
+            console.log(path);
             var self = this;
             var targetState = this.getTargetState(this.rootNode, path, [], []);
 
@@ -163,7 +164,8 @@
   };
 
   // Cached regex for stripping a leading hash/slash and trailing space.
-  var routeStripper = /^[#\/]|\s+$/g;
+  //var routeStripper = /^[#\/]|\s+$/g;
+  var routeStripper = /^[#]|\s+$/g;
 
   // Cached regex for stripping leading and trailing slashes.
   var rootStripper = /^\/+|\/+$/g;
@@ -308,6 +310,7 @@
     // match, returns `true`. If no defined routes matches the fragment,
     // returns `false`.
     loadUrl: function(fragment) {
+        console.log(fragment)
       fragment = this.fragment = this.getFragment(fragment);
       return Router.triggerRouter(fragment);
     },
