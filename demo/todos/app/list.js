@@ -1,6 +1,5 @@
 define(function(require) {
     var $ = requrie('jquery');
-    var api = require('../api');
 
     return {
         enter: function() {

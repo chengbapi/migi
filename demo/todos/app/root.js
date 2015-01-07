@@ -4,7 +4,8 @@ define(function(require) {
     var UserService = require('../service/user');
     var Nav = require('../templates/build/Nav');
     var Router = require('parasites/Router');
-    var SocketClient = require('parasites/Socket').client;
+
+    var SocketClient = UserService.socket;
 
     function renderNav(user) {
         React.render(React.createElement(Nav, {user: user}), document.getElementById('navigation'));
@@ -12,10 +13,16 @@ define(function(require) {
 
     return {
         enter: function() {
-            SocketClient.on('user:update', renderNav);
+            SocketClient.on('get:user', function(user) {
+                alert('socket');
+                renderNav(user);
+            });
 
-            userAPI
-            SocketClient.emit('get:user');
+            window.aaa = SocketClient;
+            UserService.getUser().done(function(user) {
+                alert('common');
+                renderNav(user);
+            })
         },
         leave: function() {
             SocketClient.off('get:user', renderNav);
