@@ -1,20 +1,24 @@
 define(function(require) {
     var $ = require('jquery');
-    var userAPI = require('./api/user');
-    var router = require('./router');
+    var React = require('react');
+    var UserService = require('../service/user');
+    var Nav = require('../templates/build/Nav');
+    var Router = require('parasites/Router');
+    var SocketClient = require('parasites/Socket').client;
+
+    function renderNav(user) {
+        React.render(React.createElement(Nav, {user: user}), document.getElementById('navigation'));
+    }
 
     return {
         enter: function() {
-            userAPI.getLoginStatus().done(function(data) {
-                if (data.status) {
+            SocketClient.on('user:update', renderNav);
 
-                } else {
-                    router.navigate('/login');
-                }
-            });
+            userAPI
+            SocketClient.emit('get:user');
         },
         leave: function() {
-
+            SocketClient.off('get:user', renderNav);
         }
     };
 });

@@ -12,19 +12,20 @@
         );
     } else {
         // Browser
-        root.Socket = factory(root._, root.Events);
+        root.OneWay = factory(root._, root.Events);
     }
 }(this, function(_, Events) {
-    function Socket() {}
-    _.extend(Socket.prototype, Events);
+    function OneWay() {}
+    _.extend(OneWay.prototype, Events);
 
-    Socket.prototype.emit = Socket.trigger;
+    OneWay.prototype.emit = OneWay.prototype.trigger;
 
-    var c2s = new Socket();
-    var s2c = new Socket();
 
-    return {
-        client: {
+    function Socket() {
+        var c2s = new OneWay();
+        var s2c = new OneWay();
+
+        this.client = {
             on: function() {
                 return s2c.on.apply(s2c, arguments);
             },
@@ -32,13 +33,13 @@
                 return s2c.off.apply(s2c, arguments);
             },
             emit: function() {
-                return c2s.emit.apply(c2s, arguments);
+                return c2s.trigger.apply(c2s, arguments);
             },
             trigger: function() {
-                return c2s.emit.apply(c2s, arguments);
+                return c2s.trigger.apply(c2s, arguments);
             }
-        },
-        server: {
+        };
+        this.server = {
             on: function() {
                 return c2s.on.apply(c2s, arguments);
             },
@@ -46,13 +47,14 @@
                 return c2s.off.apply(c2s, arguments);
             },
             emit: function() {
-                return s2c.emit.apply(s2c, arguments);
+                return s2c.trigger.apply(s2c, arguments);
             },
             trigger: function() {
-                return s2c.emit.apply(s2c, arguments);
+                return s2c.trigger.apply(s2c, arguments);
             }
+        };
+    }
 
-        }
-    };
+    return Socket;
 }));
 
