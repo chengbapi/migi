@@ -8,21 +8,11 @@ define(function(require) {
 
     function _getUser() {
         var def = $.Deferred();
-
         if (User._init_) {
             def.resolve(User);
         } else {
-            $.getJSON('data/login-status.json').done(function(data) {
-                if (data.status) {
-                    User.name = data.name;
-                    User._init_ = true;
-                    def.resolve(User);
-                } else {
-                    def.reject();
-                }
-            });
+            def.reject(null);
         }
-
         return def;
     }
 
@@ -39,9 +29,38 @@ define(function(require) {
         getUser: function() {
             return _getUser();
         },
+        login: function(inputs) {
+            var def = $.Deferred();
+            $.ajax({
+                url: 'data/user.php',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    username: inputs.username
+                }
+            }).done(function(data) {
+                if (data.status) {
+                    User.name = data.user.name;
+                    User.avatar = data.user.avatar;
+                    User._init_ = true;
+                    SocketServer.emit('user:change', User);
+                    def.resolve(User);
+                } else {
+                    User._init_ = false;
+                    SocketServer.emit('user:change', null);
+                    def.reject(data.error);
+                }
+            });
+            return def;
+        },
         logout: function() {
-            User._init_ = false;
-            SocketServer.emit('user:change', null);
+            var def = $.Deferred();
+            setTimeout(function() {
+                User._init_ = false;
+                def.resolve();
+                SocketServer.emit('user:change', null);
+            }, 2000);
+            return def;
         }
     };
 });

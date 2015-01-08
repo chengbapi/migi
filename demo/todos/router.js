@@ -1,7 +1,9 @@
 define(function(require) {
     var Router = require('parasites/Router');
     var root = require('./app/root');
-    var registry = require('./app/registry');
+    var login = require('./app/login');
+    var list = require('./app/list');
+    var register = require('./app/register');
 
     Router.on('enter', function(node, params) {
         node.app.enter && node.app.enter(params);
@@ -14,8 +16,11 @@ define(function(require) {
         '/': {
             app: root,
             childNodes: {
+                'login': {
+                    app: login
+                },
                 'list': {
-                    //app: list
+                    app: list
                 },
                 'detail/:id': {
                     //app: detail
@@ -23,7 +28,7 @@ define(function(require) {
             }
         },
         '/registry': {
-            app: registry
+            app: register
         }
     });
 });

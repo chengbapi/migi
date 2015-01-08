@@ -50,19 +50,20 @@
             //this.trigger('addRouter');
         },
         triggerRouter: function(path) {
-            console.log(path);
             var self = this;
             var targetState = this.getTargetState(this.rootNode, path, [], []);
+            console.log(targetState);
 
             var shortestPath = this.findShortestPath(this.currentState, targetState);
+            console.log(shortestPath);
+            this.currentState = targetState;
+
             _.forEach(shortestPath.leave, function(leaveState) {
                 self.trigger('leave', leaveState.node, leaveState.params);
             });
             _.forEach(shortestPath.enter, function(enterState) {
                 self.trigger('enter', enterState.node, enterState.params);
             });
-
-            this.currentState = targetState;
         },
         getTargetState: function(nodes, path, unmatched, stateStack) {
             if (path.length === 0) {

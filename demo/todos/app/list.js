@@ -1,13 +1,13 @@
 define(function(require) {
-    var $ = requrie('jquery');
+    var $ = require('jquery');
 
     return {
         enter: function() {
-            api.getList().done(function(data) {
-                console.log(data);
-            });
+            $('#content').html('a list');
+            console.log('enter list');
         },
         leave: function() {
+            console.log('leave list');
         }
     };
 });

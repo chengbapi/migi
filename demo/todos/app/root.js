@@ -8,13 +8,13 @@ define(function(require) {
 
     var SocketClient = UserService.socket;
 
-    function renderMain(user) {
-        React.render(React.createElement(Main, {user: user}), document.getElementById('content'));
-    }
+    //function renderMain(user) {
+        //React.render(React.createElement(Main, {user: user}), document.getElementById('content'));
+    //}
 
-    function renderNav(user) {
-        React.render(React.createElement(Nav, {user: user}), document.getElementById('navigation'));
-    }
+    //function renderNav(user) {
+        //React.render(React.createElement(Nav, {user: user}), document.getElementById('navigation'));
+    //}
 
     //function render(user) {
         //renderNav(user);
@@ -23,19 +23,17 @@ define(function(require) {
 
     return {
         enter: function() {
-            SocketClient.on('user:change', renderNav);
-            SocketClient.on('user:change', renderMain);
+            console.log('enter root');
+            React.render(React.createElement(Nav), document.getElementById('navigation'));
 
-            UserService.getUser().done(function(user) {
-                alert('common');
-                renderNav(user);
-                renderMain(user);
+            UserService.getUser().done(function() {
+                Router.navigate('/list');
+            }).fail(function() {
+                Router.navigate('/login');
             });
-
         },
         leave: function() {
-            SocketClient.off('user:change', renderNav);
-            SocketClient.off('user:change', renderMain);
+            console.log('leave root');
         }
     };
 });
