@@ -13,7 +13,7 @@ define(function(require) {
     }
 
     _.extend(Table.prototype, {
-        create: function(newObj) {
+        insert: function(newObj) {
             this[this._cid++] = newObj;
             return newObj;
         },
@@ -72,9 +72,9 @@ define(function(require) {
     }
 
     return {
-        create: function(tableName, newObj) {
+        insert: function(tableName, newObj) {
             var table = this._getTableName(tableName, true);
-            return table.create(newObj);
+            return table.insert(newObj);
         },
         get: function(tableName, query) {
             var table = this._getTableName(tableName);
