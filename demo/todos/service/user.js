@@ -28,9 +28,9 @@ define(function(require) {
 
     SocketServer.on('get:user', function() {
         _getUser().done(function(User) {
-            SocketServer.emit('get:user', User);
+            SocketServer.emit('user:change', User);
         }).fail(function() {
-            SocketServer.emit('get:user', null);
+            SocketServer.emit('user:change', null);
         });
     });
 
@@ -38,6 +38,10 @@ define(function(require) {
         socket: socket.client,
         getUser: function() {
             return _getUser();
+        },
+        logout: function() {
+            User._init_ = false;
+            SocketServer.emit('user:change', null);
         }
     };
 });

@@ -1,14 +1,13 @@
 define(function(require) {
     var $ = require('jquery');
     var React = require('react');
-    var userAPI = require('../service/user');
+    var UserService = require('../service/user');
     var Nav = require('../templates/build/Nav');
     var Router = require('parasites/Router');
-    var SocketClient = require('parasites/Socket').client;
 
     return {
         enter: function() {
-            userAPI.getLoginStatus().done(function(data) {
+            UserService.getUser().done(function(user) {
                 alert('already register!');
                 Router.navigate('/');
             }).fail(function() {

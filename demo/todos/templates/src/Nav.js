@@ -1,10 +1,17 @@
 define(function(require) {
     var React = require('react');
+    var UserService = require('../../service/user');
+
     var Account = React.createClass({
+        logout: function() {
+            UserService.logout();
+        },
         render: function() {
             return (
                 <div>
+                    <img src={this.props.user.avatar} />
                     <span>{this.props.user.name}</span>
+                    <button className="logout" onClick={this.logout}></button>
                 </div>
             );
         }
@@ -19,7 +26,7 @@ define(function(require) {
                 );
             } else {
                 return (
-                    <h1>please login</h1>
+                    <h2>please login</h2>
                 );
             }
         }
