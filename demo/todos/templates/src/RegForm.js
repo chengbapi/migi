@@ -4,14 +4,14 @@ define(function(require) {
     var UserService = require('../../service/user');
     var Router = require('parasites/Router');
 
-    var LoginForm = React.createClass({
+    var RegForm = React.createClass({
         getInitialState: function() {
             return {
                 loading: false,
                 error: false
             };
         },
-        login: function() {
+        register: function() {
             var self = this;
             var username = this.refs.username.getDOMNode().value;
             this.setState({ loading: true });
@@ -41,19 +41,18 @@ define(function(require) {
             }
 
             return (
-                <div id="login-form" className="form-group">
+                <div id="reg-form" className="form-group">
                     <h4>Login Box</h4>
                     <div className={FormGroupClassName}>
                         <label className="control-label">{this.state.error}</label>
                         <input ref="username" type="text" className="form-control" id="username" placeholder="Enter your name"/>
                     </div>
-                    <button onClick={this.login} className="btn btn-primary btn-block" disabled={this.state.loading}>
+                    <button onClick={this.login} className="btn btn-success btn-block" disabled={this.state.loading}>
                         {LoginButtonText}
                     </button>
-                    <p>Do not have an account? <a href="#/register">Register One!</a></p>
                 </div>
             );
         }
     });
-    return LoginForm;
+    return RegForm;
 });

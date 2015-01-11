@@ -3,6 +3,7 @@
 
     $data = file_get_contents('./user.txt');
 
+    $data = trim($data);
     $users = explode("\n", $data);
 
     $user = null;
@@ -12,11 +13,13 @@
             continue;
         }
         $u = explode('|', $users[$i]);
-        $username = $u[0];
-        $avatar = $u[1];
+        $uid = $u[0];
+        $username = $u[1];
+        $avatar = $u[2];
 
         if ($username === $r_username) {
             $user = array(
+                'uid'=>$uid,
                 'name'=>$username,
                 'avatar'=>$avatar
             );

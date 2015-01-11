@@ -42,7 +42,7 @@ define(function(require) {
 
             return (
                 React.createElement("div", {id: "login-form", className: "form-group"}, 
-                    React.createElement("h3", null, "Login Box"), 
+                    React.createElement("h4", null, "Login Box"), 
                     React.createElement("div", {className: FormGroupClassName}, 
                         React.createElement("label", {className: "control-label"}, this.state.error), 
                         React.createElement("input", {ref: "username", type: "text", className: "form-control", id: "username", placeholder: "Enter your name"})
