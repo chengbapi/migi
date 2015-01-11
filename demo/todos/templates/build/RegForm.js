@@ -4,14 +4,14 @@ define(function(require) {
     var UserService = require('../../service/user');
     var Router = require('parasites/Router');
 
-    var LoginForm = React.createClass({
+    var RegForm = React.createClass({displayName: "RegForm",
         getInitialState: function() {
             return {
                 loading: false,
                 error: false
             };
         },
-        login: function() {
+        register: function() {
             var self = this;
             var username = this.refs.username.getDOMNode().value;
             this.setState({ loading: true });
@@ -30,7 +30,7 @@ define(function(require) {
             var LoginButtonText;
 
             if (this.state.loading) {
-                LoginButtonText = <span className="glyphicon glyphicon-repeat glyphicon-loading"></span>
+                LoginButtonText = React.createElement("span", {className: "glyphicon glyphicon-repeat glyphicon-loading"})
             } else {
                 LoginButtonText = 'Login';
             }
@@ -41,19 +41,18 @@ define(function(require) {
             }
 
             return (
-                <div id="login-form" className="form-group">
-                    <h4>Login Box</h4>
-                    <div className={FormGroupClassName}>
-                        <label className="control-label">{this.state.error}</label>
-                        <input ref="username" type="text" className="form-control" id="username" placeholder="Enter your name"/>
-                    </div>
-                    <button onClick={this.login} className="btn btn-primary btn-block" disabled={this.state.loading}>
-                        {LoginButtonText}
-                    </button>
-                    <p>Do not have an account? <a href="#/register">Register One!</a></p>
-                </div>
+                React.createElement("div", {id: "reg-form", className: "form-group"}, 
+                    React.createElement("h4", null, "Login Box"), 
+                    React.createElement("div", {className: FormGroupClassName}, 
+                        React.createElement("label", {className: "control-label"}, this.state.error), 
+                        React.createElement("input", {ref: "username", type: "text", className: "form-control", id: "username", placeholder: "Enter your name"})
+                    ), 
+                    React.createElement("button", {onClick: this.login, className: "btn btn-success btn-block", disabled: this.state.loading}, 
+                        LoginButtonText
+                    )
+                )
             );
         }
     });
-    return LoginForm;
+    return RegForm;
 });

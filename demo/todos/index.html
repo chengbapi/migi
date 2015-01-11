@@ -8,11 +8,18 @@
   <script type="text/javascript">
     var require = {
       paths: {
+        "markdown": "./lib/markdown",
         "parasites": "../../src",
         "underscore": "../../lib/underscore/underscore",
         "jquery": "../../lib/jquery/dist/jquery",
+        "jquery-cookie": "../../lib/jquery-cookie/jquery.cookie",
         "react": "../../lib/react/react-with-addons",
         "bootstrap": "../../lib/bootstrap/dist/js/bootstrap"
+      },
+      shim: {
+        'markdown': {
+            exports: 'markdown'
+        }
       }
     }
   </script>

@@ -33,7 +33,7 @@ define(function(require) {
             $('.dropdown-toggle', dom).dropdown();
         },
         componentWillUnmount: function() {
-            SocketClient.on('user:change', this.userChange);
+            SocketClient.off('user:change', this.userChange);
         },
         render: function() {
             var accountContent;

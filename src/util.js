@@ -11,7 +11,7 @@
         );
     } else {
         // Browser
-        root.deepCopy = factory(root._);
+        root.util = factory(root._);
     }
 }(this, function(_) {
     var util = {
@@ -57,17 +57,17 @@
                         }
 
                         // Recurse if we're merging plain objects or arrays
-                        if ( deep && copy && ( _.isObject(copy) || (copyIsArray = _.isArray(copy)) ) ) {
+                        if ( deep && copy && ( (copyIsArray = _.isArray(copy)) || _.isObject(copy) ) ) {
                             if ( copyIsArray ) {
                                 copyIsArray = false;
                                 clone = src && _.isArray(src) ? src : [];
 
                             } else {
-                                clone = src && _.isPlainObject(src) ? src : {};
+                                clone = src && _.isObject(src) ? src : {};
                             }
 
                             // Never move original objects, clone them
-                            target[ name ] = util.deepCopy( deep, clone, copy );
+                            target[ name ] = util.extend( deep, clone, copy );
 
                         // Don't bring in undefined values
                         } else if ( copy !== undefined ) {
@@ -81,7 +81,15 @@
             return target;
         },
         deepCopy: function(obj) {
-            return util.extend(true, {}, obj);
+            if (obj === null || obj === undefined) {
+                return obj;
+            } else if (_.isFunction(obj)) {
+                return null;
+            } else if (_.isArray(obj)) {
+                return util.extend(true, [], obj);
+            } else if (_.isObject(obj)) {
+                return util.extend(true, {}, obj);
+            }
         }
     };
 

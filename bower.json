@@ -10,7 +10,8 @@
       "underscore": "*",
       "react": "*",
       "bootstrap": "*",
-      "jquery": "*"
+      "jquery": "*",
+      "jquery-cookie": "*"
   },
   "ignore": [
     "**/.*",

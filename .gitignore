@@ -4,6 +4,7 @@ lib/
 ### VIM ###
 *.swn
 *.swp
+*.swm
 
 ### NODE_MODULE ###
 node_modules

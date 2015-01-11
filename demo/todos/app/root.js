@@ -8,29 +8,17 @@ define(function(require) {
 
     var SocketClient = UserService.socket;
 
-    //function renderMain(user) {
-        //React.render(React.createElement(Main, {user: user}), document.getElementById('content'));
-    //}
-
-    //function renderNav(user) {
-        //React.render(React.createElement(Nav, {user: user}), document.getElementById('navigation'));
-    //}
-
-    //function render(user) {
-        //renderNav(user);
-        //renderMain(user);
-    //}
-
     return {
-        enter: function() {
-            console.log('enter root');
-            React.render(React.createElement(Nav), document.getElementById('navigation'));
-
+        at: function() {
             UserService.getUser().done(function() {
                 Router.navigate('/list');
             }).fail(function() {
                 Router.navigate('/login');
             });
+        },
+        enter: function() {
+            console.log('enter root');
+            React.render(React.createElement(Nav), document.getElementById('navigation'));
         },
         leave: function() {
             console.log('leave root');

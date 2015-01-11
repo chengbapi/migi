@@ -3,6 +3,7 @@ define(function(require) {
     var root = require('./app/root');
     var login = require('./app/login');
     var list = require('./app/list');
+    var detail = require('./app/detail');
     var register = require('./app/register');
 
     Router.on('enter', function(node, params) {
@@ -10,6 +11,9 @@ define(function(require) {
     });
     Router.on('leave', function(node, params) {
         node.app.leave && node.app.leave(params);
+    });
+    Router.on('at', function(node, params) {
+        node.app.at && node.app.at(params);
     });
 
     Router.start({
@@ -23,11 +27,11 @@ define(function(require) {
                     app: list
                 },
                 'detail/:id': {
-                    //app: detail
+                    app: detail
                 }
             }
         },
-        '/registry': {
+        '/register': {
             app: register
         }
     });

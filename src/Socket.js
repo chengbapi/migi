@@ -1,20 +1,21 @@
 (function (root, factory) {
     if(typeof define === "function" && define.amd) {
         // AMD
-        define(["underscore", "./Events"], function(underscore, Events){
-            return factory(underscore, Events);
+        define(["underscore", "./Events", './util'], function(underscore, Events, util){
+            return factory(underscore, Events, util);
         });
     } else if(typeof module === "object" && module.exports) {
         // CMD
         module.exports = factory(
             require("underscore"),
-            require("./Events")
+            require("./Events"),
+            require("./util")
         );
     } else {
         // Browser
-        root.OneWay = factory(root._, root.Events);
+        root.Socket = factory(root._, root.Events, root.util);
     }
-}(this, function(_, Events) {
+}(this, function(_, Events, util) {
     function OneWay() {}
     _.extend(OneWay.prototype, Events);
 
@@ -36,7 +37,8 @@
                 return c2s.trigger.apply(c2s, arguments);
             },
             trigger: function() {
-                return c2s.trigger.apply(c2s, arguments);
+                var args = Array.prototype.slice.call(arguments, 0);
+                return c2s.trigger.apply(c2s, util.deepCopy(args));
             }
         };
         this.server = {
@@ -50,7 +52,8 @@
                 return s2c.trigger.apply(s2c, arguments);
             },
             trigger: function() {
-                return s2c.trigger.apply(s2c, arguments);
+                var args = Array.prototype.slice.call(arguments, 0);
+                return s2c.trigger.apply(s2c, util.deepCopy(args));
             }
         };
     }
