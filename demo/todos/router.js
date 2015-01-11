@@ -12,6 +12,9 @@ define(function(require) {
     Router.on('leave', function(node, params) {
         node.app.leave && node.app.leave(params);
     });
+    Router.on('at', function(node, params) {
+        node.app.at && node.app.at(params);
+    });
 
     Router.start({
         '/': {

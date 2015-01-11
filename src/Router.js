@@ -51,19 +51,24 @@
         },
         triggerRouter: function(path) {
             var self = this;
+
             var targetState = this.getTargetState(this.rootNode, path, [], []);
-            console.log(targetState);
 
             var shortestPath = this.findShortestPath(this.currentState, targetState);
-            console.log(shortestPath);
-            this.currentState = targetState;
 
             _.forEach(shortestPath.leave, function(leaveState) {
                 self.trigger('leave', leaveState.node, leaveState.params);
             });
+
             _.forEach(shortestPath.enter, function(enterState) {
                 self.trigger('enter', enterState.node, enterState.params);
             });
+
+            var enterStateLength = shortestPath.enter.length
+            var lastState = shortestPath.enter[enterStateLength - 1];
+            self.trigger('at', lastState.node, lastState.params);
+
+            this.currentState = targetState;
         },
         getTargetState: function(nodes, path, unmatched, stateStack) {
             if (path.length === 0) {
@@ -97,8 +102,9 @@
             return this.getTargetState(nodes, degradePath, unmatched, stateStack);
         },
         findShortestPath: function(currentState, targetState) {
+            var minLength = Math.min(currentState, targetState);
             // get Common parent Node
-            for (var i = 0; i < currentState.length; i++) {
+            for (var i = 0; i < minLength; i++) {
                 if (currentState[i].node !== targetState[i].node ||
                     !_.isEqual(currentState[i].params, targetState[i].params)) {
                     break;
@@ -311,7 +317,6 @@
     // match, returns `true`. If no defined routes matches the fragment,
     // returns `false`.
     loadUrl: function(fragment) {
-        console.log(fragment)
       fragment = this.fragment = this.getFragment(fragment);
       return Router.triggerRouter(fragment);
     },

@@ -17,9 +17,9 @@ define(function(require) {
             ArticleService.getArticle(title).done(function(article) {
                 self.setState({
                     loading: false,
-                    title: article.title,
-                    content: article.content
+                    title: article.title
                 });
+                self.refs.content.getDOMNode().innerText = article.content;
             });
             this.setState({ loading: true });
         },
@@ -51,9 +51,7 @@ define(function(require) {
                 );
             } else {
                 content = (
-                    <div ref="content" className="content" contentEditable onInput={this.syncArticle} >
-                        {this.state.content}
-                    </div>
+                    <div ref="content" className="content" contentEditable onInput={this.syncArticle} ></div>
                 );
             }
             return (

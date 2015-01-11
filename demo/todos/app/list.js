@@ -20,6 +20,7 @@ define(function(require) {
             });
         },
         leave: function() {
+            $("#content").html('');
             console.log('leave list');
         }
     };

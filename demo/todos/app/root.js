@@ -9,15 +9,16 @@ define(function(require) {
     var SocketClient = UserService.socket;
 
     return {
-        enter: function() {
-            console.log('enter root');
-            React.render(React.createElement(Nav), document.getElementById('navigation'));
-
+        at: function() {
             UserService.getUser().done(function() {
-                //Router.navigate('/list');
+                Router.navigate('/list');
             }).fail(function() {
                 Router.navigate('/login');
             });
+        },
+        enter: function() {
+            console.log('enter root');
+            React.render(React.createElement(Nav), document.getElementById('navigation'));
         },
         leave: function() {
             console.log('leave root');
