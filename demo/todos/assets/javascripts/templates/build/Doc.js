@@ -32,7 +32,7 @@ define(function(require) {
             this.setState({
                 title: title
             });
-            ArticleService.syncArticle({
+            return ArticleService.syncArticle({
                 title: title,
                 content: content
             }, toServer);
@@ -41,7 +41,9 @@ define(function(require) {
             this._syncArticle();
         },
         saveArticle: function() {
-            this._syncArticle(true);
+            this._syncArticle(true).done(function(article) {
+                alert('saved! article:' + article.title);
+            });
         },
         render: function() {
             var content;
@@ -58,7 +60,7 @@ define(function(require) {
                 React.createElement("div", {className: "doc"}, 
                     React.createElement("input", {ref: "title", type: "text", className: "title", onChange: this.syncArticle, value: this.state.title}), 
                     content, 
-                    React.createElement("button", {className: "btn btn-large btn-primary", onClick: this.saveArticle}, "Save")
+                    React.createElement("button", {className: "btn btn-large btn-primary btn-block", onClick: this.saveArticle}, "Save")
                 )
             );
         }

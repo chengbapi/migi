@@ -19,6 +19,8 @@ define(function(require) {
         enter: function() {
             console.log('enter root');
             React.render(React.createElement(Nav), document.getElementById('navigation'));
+
+            UserService.getUser();
         },
         leave: function() {
             console.log('leave root');

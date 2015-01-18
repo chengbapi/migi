@@ -32,7 +32,7 @@ define(function(require) {
             this.setState({
                 title: title
             });
-            ArticleService.syncArticle({
+            return ArticleService.syncArticle({
                 title: title,
                 content: content
             }, toServer);
@@ -41,7 +41,9 @@ define(function(require) {
             this._syncArticle();
         },
         saveArticle: function() {
-            this._syncArticle(true);
+            this._syncArticle(true).done(function(article) {
+                alert('saved! article:' + article.title);
+            });
         },
         render: function() {
             var content;
@@ -58,7 +60,7 @@ define(function(require) {
                 <div className="doc">
                     <input ref="title" type="text" className="title" onChange={this.syncArticle} value={this.state.title}/>
                     { content }
-                    <button className="btn btn-large btn-primary" onClick={this.saveArticle}>Save</button>
+                    <button className="btn btn-large btn-primary btn-block" onClick={this.saveArticle}>Save</button>
                 </div>
             );
         }

@@ -1,5 +1,4 @@
 define(function(require) {
-    var $ = require('jquery');
     var React = require('react');
     var Doc = require('../templates/build/Doc');
     var DocParsed = require('../templates/build/DocParsed');

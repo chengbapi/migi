@@ -6,19 +6,6 @@ define(function(require) {
     var socket = new Socket();
     var SocketServer = socket.server;
 
-    function _getArticle(title) {
-    }
-
-    function _postArticle(article) {
-
-    }
-
-    function _syncArticle(article, toServer) {
-    }
-
-    SocketServer.on('article:sync', function(article) {
-    });
-
     var ArticleService = {
         socket: socket.client,
         getArticles: function() {
