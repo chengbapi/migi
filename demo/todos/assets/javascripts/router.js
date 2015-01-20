@@ -6,14 +6,21 @@ define(function(require) {
     var detail = require('./app/detail');
     var register = require('./app/register');
 
-    Router.on('enter', function(node, params) {
+    Router.on('over', function(node, params, next) {
+        node.app.over && node.app.over(params);
+        next();
+    });
+    Router.on('out', function(node, params, next) {
+        node.app.out && node.app.out(params);
+        next();
+    });
+    Router.on('enter', function(node, params, next) {
         node.app.enter && node.app.enter(params);
+        next();
     });
-    Router.on('leave', function(node, params) {
+    Router.on('leave', function(node, params, next) {
         node.app.leave && node.app.leave(params);
-    });
-    Router.on('at', function(node, params) {
-        node.app.at && node.app.at(params);
+        next();
     });
 
     Router.start({

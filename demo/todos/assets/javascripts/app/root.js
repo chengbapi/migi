@@ -9,21 +9,27 @@ define(function(require) {
     var SocketClient = UserService.socket;
 
     return {
-        at: function() {
+        enter: function() {
             UserService.getUser().done(function() {
                 Router.navigate('/list');
             }).fail(function() {
                 Router.navigate('/login');
             });
-        },
-        enter: function() {
             console.log('enter root');
+        },
+        leave: function() {
+            console.log('leave root');
+
+        },
+        over: function() {
+            console.log('over root');
             React.render(React.createElement(Nav), document.getElementById('navigation'));
 
             UserService.getUser();
         },
-        leave: function() {
-            console.log('leave root');
+        out: function() {
+            React.unmountComponentAtNode(document.getElementById('navigation'));
+            console.log('out root');
         }
     };
 });

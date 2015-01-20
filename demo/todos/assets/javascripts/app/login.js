@@ -5,7 +5,7 @@ define(function(require) {
     var Router = require('parasites/Router');
 
     return {
-        enter: function() {
+        over: function() {
             console.log('enter login');
             UserService.getUser().done(function() {
                 Router.navigate('/list');
@@ -13,7 +13,7 @@ define(function(require) {
                 React.render(React.createElement(LoginForm), document.getElementById('content'));
             });
         },
-        leave: function() {
+        out: function() {
             console.log('leave login');
         }
     };

@@ -4,7 +4,7 @@ define(function(require) {
     var ArticleService = require('../../service/article');
     var ArticleSocketClient = ArticleService.socket;
 
-    var DocParsed = React.createClass({displayName: "DocParsed",
+    var DocParsedText = React.createClass({
         getInitialState: function() {
             return {
                 loading: false,
@@ -34,28 +34,27 @@ define(function(require) {
                 loading: false,
                 title: article.title
             });
-            this.refs.content.getDOMNode().innerHTML = markdown.toHTML(article.content)
-
+            this.refs.content.getDOMNode().innerText = markdown.toHTML(article.content)
         },
         render: function() {
             var content;
             if (this.state.loading) {
                 content = (
-                    React.createElement("span", {className: "glyphicon glyphicon-repeat glyphicon-loading"})
+                    <span className="glyphicon glyphicon-repeat glyphicon-loading"></span>
                 );
             } else {
                 content = (
-                    React.createElement("div", {ref: "content", className: "content"})
+                    <div ref="content" className="content"></div>
                 );
             }
             return (
-                React.createElement("div", {className: "doc"}, 
-                    React.createElement("div", {className: "title"}, this.state.title), 
-                    content 
-                )
+                <div className="doc">
+                    <div className="title">{this.state.title}</div>
+                    { content }
+                </div>
             );
         }
     });
 
-    return DocParsed;
+    return DocParsedText;
 })

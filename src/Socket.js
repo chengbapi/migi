@@ -1,30 +1,25 @@
 (function (root, factory) {
     if(typeof define === "function" && define.amd) {
         // AMD
-        define(["underscore", "./Events", './util'], function(underscore, Events, util){
-            return factory(underscore, Events, util);
+        define(["underscore", "./PubSub", './util'], function(underscore, PubSub, util){
+            return factory(underscore, PubSub, util);
         });
     } else if(typeof module === "object" && module.exports) {
         // CMD
         module.exports = factory(
             require("underscore"),
-            require("./Events"),
+            require("./PubSub"),
             require("./util")
         );
     } else {
         // Browser
-        root.Socket = factory(root._, root.Events, root.util);
+        root.Socket = factory(root._, root.PubSub, root.util);
     }
-}(this, function(_, Events, util) {
-    function OneWay() {}
-    _.extend(OneWay.prototype, Events);
-
-    OneWay.prototype.emit = OneWay.prototype.trigger;
-
+}(this, function(_, PubSub, util) {
 
     function Socket() {
-        var c2s = new OneWay();
-        var s2c = new OneWay();
+        var c2s = new PubSub();
+        var s2c = new PubSub();
 
         this.client = {
             on: function() {
@@ -42,10 +37,6 @@
             }
         };
 
-        this.client.sub = this.client.on;
-        this.client.unsub = this.client.off;
-        this.client.pub = this.client.emit;
-
         this.server = {
             on: function() {
                 return c2s.on.apply(c2s, arguments);
@@ -61,10 +52,6 @@
                 return s2c.trigger.apply(s2c, arguments);
             }
         };
-
-        this.server.sub = this.server.on;
-        this.server.unsub = this.server.off;
-        this.server.pub = this.server.emit;
     }
 
     return Socket;

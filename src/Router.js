@@ -53,23 +53,77 @@
             var self = this;
 
             var targetState = this.getTargetState(this.rootNode, path, [], []);
-
             var shortestPath = this.findShortestPath(this.currentState, targetState);
 
-            _.forEach(shortestPath.leave, function(leaveState) {
-                self.trigger('leave', leaveState.node, leaveState.params);
+            var EventList = [];
+
+            var currentStateLength = this.currentState.length;
+            var overStateLength = shortestPath.over.length;
+
+            var lastCurrentState = this.currentState[currentStateLength - 1];
+            var lastNewState = shortestPath.over[overStateLength - 1];
+
+            EventList.push({
+                type: 'leave',
+                state: lastCurrentState
             });
 
-            _.forEach(shortestPath.enter, function(enterState) {
-                self.trigger('enter', enterState.node, enterState.params);
+            _.forEach(shortestPath.out, function(outState) {
+                EventList.push({
+                    type: 'out',
+                    state: outState
+                });
             });
 
-            var enterStateLength = shortestPath.enter.length
-            var lastState = shortestPath.enter[enterStateLength - 1];
-            self.trigger('at', lastState.node, lastState.params);
+            _.forEach(shortestPath.over, function(overState) {
+                EventList.push({
+                    type: 'over',
+                    state: overState
+                });
+            });
 
-            this.currentState = targetState;
+            EventList.push({
+                type: 'enter',
+                state: lastNewState
+            });
+
+            this.changeState(EventList);
         },
+
+        changeState: function(EventList) {
+            var self = this;
+
+            console.table(EventList)
+            console.log(EventList)
+
+            function next() {
+                var _event = EventList.shift();
+                if (!_event) {
+                    return;
+                }
+
+                var type = _event.type;
+                var state = _event.state;
+
+                if (state) {
+                    /*
+                     * enter 和 leave不重复改变state
+                     * */
+                    if (type === 'out') {
+                        self.currentState.pop();
+                    }
+                    if (type === 'over') {
+                        self.currentState.push(state);
+                    }
+                    self.trigger(type, state.node, state.params, next);
+                } else {
+                    next();
+                }
+            }
+
+            next();
+        },
+
         getTargetState: function(nodes, path, unmatched, stateStack) {
             if (path.length === 0) {
                 path = '/';
@@ -102,7 +156,7 @@
             return this.getTargetState(nodes, degradePath, unmatched, stateStack);
         },
         findShortestPath: function(currentState, targetState) {
-            var minLength = Math.min(currentState, targetState);
+            var minLength = Math.min(currentState.length, targetState.length);
             // get Common parent Node
             for (var i = 0; i < minLength; i++) {
                 if (currentState[i].node !== targetState[i].node ||
@@ -111,8 +165,8 @@
                 }
             }
             return {
-                leave: currentState.slice(i).reverse(),
-                enter: targetState.slice(i)
+                out: currentState.slice(i).reverse(),
+                over: targetState.slice(i)
             };
         },
         match: function(rule, path) {

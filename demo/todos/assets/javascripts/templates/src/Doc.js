@@ -14,6 +14,7 @@ define(function(require) {
         componentDidMount: function() {
             var self = this;
             var title = this.props.title;
+
             ArticleService.getArticle(title).done(function(article) {
                 self.setState({
                     loading: false,
@@ -21,7 +22,18 @@ define(function(require) {
                 });
                 self.refs.content.getDOMNode().innerText = article.content;
             });
+
             this.setState({ loading: true });
+
+            $(this.getDOMNode()).on('scroll', function() {
+                var scrollTop = $(this).scrollTop();
+                var height = $(this).height();
+                var totalHeight = $(this).find('.content').height();
+
+                var percent = scrollTop / (totalHeight - height);
+
+                self.props.percent.pub('change', percent);
+            });
         },
         componentWillUnmount: function() {
 

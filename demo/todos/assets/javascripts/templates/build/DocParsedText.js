@@ -4,7 +4,7 @@ define(function(require) {
     var ArticleService = require('../../service/article');
     var ArticleSocketClient = ArticleService.socket;
 
-    var DocParsed = React.createClass({displayName: "DocParsed",
+    var DocParsedText = React.createClass({displayName: "DocParsedText",
         getInitialState: function() {
             return {
                 loading: false,
@@ -34,8 +34,7 @@ define(function(require) {
                 loading: false,
                 title: article.title
             });
-            this.refs.content.getDOMNode().innerHTML = markdown.toHTML(article.content)
-
+            this.refs.content.getDOMNode().innerText = markdown.toHTML(article.content)
         },
         render: function() {
             var content;
@@ -57,5 +56,5 @@ define(function(require) {
         }
     });
 
-    return DocParsed;
+    return DocParsedText;
 })

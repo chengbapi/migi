@@ -6,7 +6,7 @@ define(function(require) {
     var Router = require('parasites/Router');
 
     return {
-        enter: function() {
+        over: function() {
             UserService.getUser().done(function(user) {
                 alert('already register!');
                 Router.navigate('/');
@@ -14,7 +14,7 @@ define(function(require) {
                 $('#content').text('register form');
             });
         },
-        leave: function() {
+        out: function() {
 
         }
     };

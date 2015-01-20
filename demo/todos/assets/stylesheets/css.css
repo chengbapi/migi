@@ -25,12 +25,19 @@
     margin-right: 20px;
 }
 #raw-contianer,
-#parsed-contianer{
+#parsed-contianer,
+#parsed-text{
     padding: 2%;
     vertical-align: top;
-    width: 45%;
+    width: 32%;
     display: inline-block;
     border: 1px solid #eee;
+}
+
+#raw-contianer .doc,
+#parsed-contianer .doc,
+#parsed-text .doc {
     height: 400px;
     overflow: scroll;
 }
+
