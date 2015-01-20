@@ -3,8 +3,8 @@ define(function(require) {
     require('jquery-cookie');
     var User = require('../model/user');
 
-    var Socket = require('parasites/Socket');
-    var Deferred = require('parasites/Deferred');
+    var Socket = require('migi/Socket');
+    var Deferred = require('migi/Deferred');
     var socket = new Socket();
     var SocketServer = socket.server;
 
@@ -15,17 +15,21 @@ define(function(require) {
             if (User._init_) {
                 // already login
                 def.resolve(User);
+                SocketServer.emit('user:change', User);
             } else {
-                var username = $.cookie('user');
-                if (username) {
-                    // auto login with cookie
-                    UserService.login({ username: username }).done(function(User) {
-                        def.resolve(User);
-                    });
-                } else {
-                    // not login
-                    def.reject(null);
-                }
+                setTimeout(function() {
+                    var username = $.cookie('user');
+                    if (username) {
+                        // auto login with cookie
+                        UserService.login({ username: username }).done(function(User) {
+                            def.resolve(User);
+                        });
+                    } else {
+                        // not login
+                        SocketServer.emit('user:change', null);
+                        def.reject(null);
+                    }
+                }, 2000);
             }
             return def;
         },

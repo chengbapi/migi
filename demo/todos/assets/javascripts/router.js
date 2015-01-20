@@ -1,5 +1,5 @@
 define(function(require) {
-    var Router = require('parasites/Router');
+    var Router = require('migi/router/TreeRouter');
     var root = require('./app/root');
     var login = require('./app/login');
     var list = require('./app/list');
@@ -7,20 +7,32 @@ define(function(require) {
     var register = require('./app/register');
 
     Router.on('over', function(node, params, next) {
-        node.app.over && node.app.over(params);
-        next();
+        if (node.app.over) {
+            node.app.over(params, next);
+        } else {
+            next();
+        }
     });
     Router.on('out', function(node, params, next) {
-        node.app.out && node.app.out(params);
-        next();
+        if (node.app.out) {
+            node.app.out(params, next);
+        } else {
+            next();
+        }
     });
     Router.on('enter', function(node, params, next) {
-        node.app.enter && node.app.enter(params);
-        next();
+        if (node.app.enter) {
+            node.app.enter(params, next);
+        } else {
+            next();
+        }
     });
     Router.on('leave', function(node, params, next) {
-        node.app.leave && node.app.leave(params);
-        next();
+        if (node.app.leave) {
+            node.app.leave(params, next);
+        } else {
+            next();
+        }
     });
 
     Router.start({

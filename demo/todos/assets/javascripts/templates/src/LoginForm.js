@@ -2,7 +2,7 @@ define(function(require) {
     var $ = require('jquery');
     var React = require('react');
     var UserService = require('../../service/user');
-    var Router = require('parasites/Router');
+    var Router = require('migi/router/TreeRouter');
 
     var LoginForm = React.createClass({
         getInitialState: function() {

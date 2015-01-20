@@ -4,10 +4,11 @@ define(function(require) {
     var DocParsed = require('../templates/build/DocParsed');
     var DocParsedText = require('../templates/build/DocParsedText');
 
-    var PubSub = require('parasites/PubSub');
+    var PubSub = require('migi/PubSub');
 
     return {
-        enter: function(params) {
+        enter: function(params, next) {
+            console.log('enter detail');
             var title = params[0];
             var rawContainer = document.createElement('div');
             rawContainer.id = 'raw-contianer';
@@ -26,11 +27,14 @@ define(function(require) {
             React.render(React.createElement(Doc, { title: title, percent: percent }), rawContainer);
             React.render(React.createElement(DocParsed, { title: title, percent: percent }), parsedContainer);
             React.render(React.createElement(DocParsedText, { title: title, percent: percent }), parsedText);
+            next();
         },
-        leave: function() {
+        leave: function(params, next) {
+            console.log('leave detail');
             document.getElementById('content').removeChild(document.getElementById('raw-contianer'));
             document.getElementById('content').removeChild(document.getElementById('parsed-contianer'));
             document.getElementById('content').removeChild(document.getElementById('parsed-text'));
+            next();
         }
     };
 });

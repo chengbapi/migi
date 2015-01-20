@@ -3,7 +3,8 @@ define(function(require) {
     var ArticleService = require('../service/article');
 
     return {
-        over: function() {
+        enter: function(params, next) {
+            console.log('enter list');
             ArticleService.getArticles().done(function(articles) {
                 var html = '<ul>';
                 var articlesHtml = articles.map(function(article) {
@@ -17,11 +18,12 @@ define(function(require) {
                 html += '</ul>';
                 $("#content").html(html);
             });
-            console.log('over list');
+            next();
         },
-        out: function() {
+        leave: function(params, next) {
+            console.log('leave list');
             $("#content").html('');
-            console.log('out list');
+            next();
         }
     };
 });

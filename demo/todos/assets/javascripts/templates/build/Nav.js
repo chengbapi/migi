@@ -4,13 +4,13 @@ define(function(require) {
     var React = require('react');
     var UserService = require('../../service/user');
     var SocketClient = UserService.socket;
-    var Router = require('parasites/Router');
+    var Router = require('migi/router/TreeRouter');
 
     var Account = React.createClass({displayName: "Account",
         getInitialState: function() {
             return {
                 user: null,
-                loading: false
+                loading: true
             };
         },
         logout: function() {
@@ -74,10 +74,14 @@ define(function(require) {
                 React.createElement("div", {className: "navbar navbar-static-top bs-docs-nav"}, 
                     React.createElement("div", {className: "container"}, 
                         React.createElement("div", {className: "navbar-header"}, 
-                            React.createElement("a", {className: "navbar-brand"}, "Parasites")
+                            React.createElement("a", {href: "#/", className: "navbar-brand"}, "MIGI")
+                        ), 
+                        React.createElement("ul", {className: "nav navbar-nav"}, 
+                            React.createElement("li", null, 
+                                React.createElement("a", {href: "#/list"}, "List")
+                            )
                         ), 
                         React.createElement("nav", {className: "collapse navbar-collapse bs-navbar-collapse"}, 
-
                         React.createElement(Account, null)
                         )
                     )

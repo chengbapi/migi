@@ -4,32 +4,37 @@ define(function(require) {
     var UserService = require('../service/user');
     var Nav = require('../templates/build/Nav');
     var Main = require('../templates/build/Main');
-    var Router = require('parasites/Router');
+    var Router = require('migi/router/TreeRouter');
 
     var SocketClient = UserService.socket;
 
     return {
-        enter: function() {
+        enter: function(params, next) {
+            console.log('enter root');
             UserService.getUser().done(function() {
+                next();
                 Router.navigate('/list');
             }).fail(function() {
+                next();
                 Router.navigate('/login');
             });
-            console.log('enter root');
         },
-        leave: function() {
+        leave: function(params, next) {
             console.log('leave root');
-
+            next();
         },
-        over: function() {
+        over: function(params, next) {
             console.log('over root');
             React.render(React.createElement(Nav), document.getElementById('navigation'));
 
-            UserService.getUser();
+            UserService.getUser().always(function() {
+                next();
+            });
         },
-        out: function() {
+        out: function(params, next) {
             React.unmountComponentAtNode(document.getElementById('navigation'));
             console.log('out root');
+            next();
         }
     };
 });

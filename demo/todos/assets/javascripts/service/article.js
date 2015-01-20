@@ -1,8 +1,8 @@
 define(function(require) {
     var $ = require('jquery');
     var Article = require('../model/article');
-    var Socket = require('parasites/Socket');
-    var Deferred = require('parasites/Deferred');
+    var Socket = require('migi/Socket');
+    var Deferred = require('migi/Deferred');
     var socket = new Socket();
     var SocketServer = socket.server;
 

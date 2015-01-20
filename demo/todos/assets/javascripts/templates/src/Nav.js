@@ -4,13 +4,13 @@ define(function(require) {
     var React = require('react');
     var UserService = require('../../service/user');
     var SocketClient = UserService.socket;
-    var Router = require('parasites/Router');
+    var Router = require('migi/router/TreeRouter');
 
     var Account = React.createClass({
         getInitialState: function() {
             return {
                 user: null,
-                loading: false
+                loading: true
             };
         },
         logout: function() {
@@ -74,10 +74,14 @@ define(function(require) {
                 <div className="navbar navbar-static-top bs-docs-nav">
                     <div className="container">
                         <div className="navbar-header">
-                            <a className="navbar-brand">Parasites</a>
+                            <a href="#/" className="navbar-brand">MIGI</a>
                         </div>
+                        <ul className="nav navbar-nav">
+                            <li>
+                                <a href="#/list">List</a>
+                            </li>
+                        </ul>
                         <nav className="collapse navbar-collapse bs-navbar-collapse">
-
                         <Account/>
                         </nav>
                     </div>

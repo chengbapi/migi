@@ -1,14 +1,14 @@
 (function (root, factory) {
     if(typeof define === "function" && define.amd) {
         // AMD
-        define(["underscore", "./Events"], function(underscore, Events){
+        define(["underscore", "../Events"], function(underscore, Events){
             return factory(underscore, Events);
         });
     } else if(typeof module === "object" && module.exports) {
         // CMD
         module.exports = factory(
             require("underscore"),
-            require("./Events")
+            require("../Events")
         );
     } else {
         // Browser
@@ -58,10 +58,10 @@
             var EventList = [];
 
             var currentStateLength = this.currentState.length;
-            var overStateLength = shortestPath.over.length;
+            var targetStateLength = targetState.length;
 
             var lastCurrentState = this.currentState[currentStateLength - 1];
-            var lastNewState = shortestPath.over[overStateLength - 1];
+            var lastTargetState = targetState[targetStateLength - 1];
 
             EventList.push({
                 type: 'leave',
@@ -84,7 +84,7 @@
 
             EventList.push({
                 type: 'enter',
-                state: lastNewState
+                state: lastTargetState
             });
 
             this.changeState(EventList);
